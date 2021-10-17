@@ -2,6 +2,7 @@ import * as esbuild from 'esbuild-wasm';
 import ReactDom from 'react-dom';
 import { useEffect, useState } from 'react';
 import { unpkgPathPlugin } from './plugins/unpkg-path-plugins';
+import { fetchPlugin } from './plugins/fecth-pluging';
 
 const App = () => {
   const [input, setInput] = useState<string>('');
@@ -30,19 +31,25 @@ const App = () => {
       entryPoints: ['index.js'],
       bundle: true,
       write: false,
-      plugins: [unpkgPathPlugin()],
-      define:{
+      plugins: [unpkgPathPlugin(), fetchPlugin(input)],
+      define: {
         'process.env.NODE_ENV': '"production"',
-        global:'window'
+        global: 'window'
       }
     });
 
     // console.log(result);
-    setCode(result.outputFiles[0].text)
+    setCode(result.outputFiles[0].text);
+
+    try {
+      eval(result.outputFiles[0].text);
+    } catch (e) {
+      alert(e)
+    }
   };
 
   return <div>
-    <textarea value={input} onChange={event => setInput(event.target.value)} />
+    <textarea style={{width:500, height:300}} value={input} onChange={event => setInput(event.target.value)} />
     <div>
       <button onClick={onClick}>Submit</button>
     </div>
