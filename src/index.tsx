@@ -1,8 +1,10 @@
+import 'bulmaswatch/superhero/bulmaswatch.min.css'
 import * as esbuild from 'esbuild-wasm';
 import ReactDOM from 'react-dom';
 import { useEffect, useRef, useState } from 'react';
 import { unpkgPathPlugin } from './plugins/unpkg-path-plugins';
 import { fetchPlugin } from './plugins/fecth-pluging';
+import CodeEditor from './components/code-editor';
 
 const App = () => {
   const [input, setInput] = useState<string>('');
@@ -44,8 +46,8 @@ const App = () => {
   };
 
   const html = `
-    <html>
-      <head></head>
+    <html lang="en">
+      <head title="code preview"></head>
       <body>
         <div id="root"></div>
         <script>
@@ -64,10 +66,14 @@ const App = () => {
   `;
 
   return <div>
-    <textarea
-      style={{width: 500, height: 300}} value={input}
-      onChange={event => setInput(event.target.value)}
+    <CodeEditor
+      initialValue=""
+      onChange={(value) => setInput(value)}
     />
+    {/*<textarea*/}
+    {/*  value={input}*/}
+    {/*  onChange={event => setInput(event.target.value)}*/}
+    {/*/>*/}
     <div>
       <button onClick={onClick}>Submit</button>
     </div>
