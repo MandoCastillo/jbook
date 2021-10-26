@@ -5,9 +5,10 @@ import { useEffect, useRef, useState } from 'react';
 import { unpkgPathPlugin } from './plugins/unpkg-path-plugins';
 import { fetchPlugin } from './plugins/fecth-pluging';
 import CodeEditor from './components/code-editor';
+import { codeExample } from './helpers/consts';
 
 const App = () => {
-  const [input, setInput] = useState<string>('');
+  const [input, setInput] = useState<string>(codeExample);
   const [code, setCode] = useState<string>('');
   const iframe = useRef<any>();
 
@@ -67,7 +68,7 @@ const App = () => {
 
   return <div>
     <CodeEditor
-      initialValue=""
+      initialValue={codeExample}
       onChange={(value) => setInput(value)}
     />
     {/*<textarea*/}
@@ -77,26 +78,6 @@ const App = () => {
     <div>
       <button onClick={onClick}>Submit</button>
     </div>
-    <pre>{`
-// example to use
-import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
-
-const App = () => {
-  
-  const [number, setNumber] = useState(0);
-  
-  return (
-    <>
-      <h1>Counter {number}</h1>
-      <button onClick={()=> setNumber(number+1) }>+1</button>
-       <button onClick={()=> setNumber(number-1) }>-1</button>
-    </>
-  )
-};
-
-ReactDOM.render(<App />, document.querySelector('#root'));`
-    }</pre>
     <iframe
       ref={iframe}
       title="code preview"
