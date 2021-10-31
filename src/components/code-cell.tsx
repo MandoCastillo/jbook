@@ -1,24 +1,25 @@
-import '../assets/css/preview.css'
-import { useRef, useState } from 'react';
-import { codeExample, html } from '../helpers/consts';
+import { useEffect, useState } from 'react';
+import { codeExample} from '../helpers/consts';
 import CodeEditor from './code-editor';
 import { codeResult } from '../bundler';
 import Resizable from './resizable';
+import Preview from './preview';
 
 const CodeCell = () => {
-  const iframe = useRef<any>();
   const [input, setInput] = useState<string>(codeExample);
+  const [code, setCode] = useState('');
   // const [isLoading, setIsLoading] = useState(false);
-  // const [code, setCode] = useState<string>('');
 
-  const onClick = async () => {
-    // setIsLoading(true);
-    iframe.current.srcdoc = html;
-    const result = await codeResult(input);
-    // setCode(result)
-    iframe.current.contentWindow.postMessage(result, '*');
-    // setIsLoading(false);
-  };
+  useEffect(() => {
+    const timer = setTimeout(async () => {
+      const result = await codeResult(input);
+      setCode(result)
+    }, 1000);
+
+    return () => {
+      clearTimeout(timer)
+    };
+  }, [input]);
 
   return (
     <Resizable direction="vertical">
@@ -29,15 +30,7 @@ const CodeCell = () => {
             onChange={(value) => setInput(value)}
           />
         </Resizable>
-        <div className="preview-wrapper">
-          <iframe
-            ref={iframe}
-            title="code preview"
-            sandbox="allow-scripts"
-            srcDoc={html}
-            frameBorder="1"
-          />
-        </div>
+        <Preview code={code} />
       </div>
     </Resizable>);
 };
