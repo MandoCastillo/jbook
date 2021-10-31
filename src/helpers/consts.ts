@@ -23,7 +23,9 @@ ReactDOM.render(<App />, document.querySelector('#root'));`
 
 export const html = `
     <html lang="en">
-      <head title="code preview"></head>
+      <head title="code preview">
+        <style>html {background-color: white}</style>
+      </head>
       <body>
         <div id="root"></div>
         <script>
