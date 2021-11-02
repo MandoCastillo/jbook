@@ -4,9 +4,10 @@ import { html } from '../helpers/consts';
 
 interface PreviewProps {
   code: string;
+  error: string;
 }
 
-const Preview: FC<PreviewProps> = ({code}) => {
+const Preview: FC<PreviewProps> = ({code, error}) => {
   const iframe = useRef<any>();
 
   useEffect(() => {
@@ -24,6 +25,7 @@ const Preview: FC<PreviewProps> = ({code}) => {
         sandbox="allow-scripts"
         srcDoc={html}
       />
+      {error && <div className="preview-error">{error}</div>}
     </div>
   );
 };

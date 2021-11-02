@@ -9,17 +9,28 @@ export const esbuildInitialize = async (): Promise<void> => {
   });
 };
 
-export const codeResult = async (inputCode: string): Promise<string> => {
-  const result = await esbuild.build({
-    entryPoints: ['index.js'],
-    bundle: true,
-    write: false,
-    plugins: [unpkgPathPlugin(), fetchPlugin(inputCode)],
-    define: {
-      'process.env.NODE_ENV': '"production"',
-      global: 'window'
+export const codeResult = async (inputCode: string): Promise<{code:string, error:string}> => {
+  try {
+    const result = await esbuild.build({
+      entryPoints: ['index.js'],
+      bundle: true,
+      write: false,
+      plugins: [unpkgPathPlugin(), fetchPlugin(inputCode)],
+      define: {
+        'process.env.NODE_ENV': '"production"',
+        global: 'window'
+      }
+    });
+    return {
+      code: result.outputFiles[0].text,
+      error: ''
+    };
+  } catch (err) {
+    return  {
+      code: '',
+      // @ts-ignore
+      error: err.message
     }
-  });
+  }
 
-  return result.outputFiles[0].text;
 };
