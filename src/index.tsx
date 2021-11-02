@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { esbuildInitialize } from './bundler';
 import CodeCell from './components/code-cell';
+import TextEditor from './components/text-editor';
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -19,8 +20,8 @@ const App = () => {
   return <div>
     {isLoading ? <p>Cargando</p> :
       <>
-        <CodeCell />
         {/*<CodeCell />*/}
+        <TextEditor />
       </>
     }
   </div>;
