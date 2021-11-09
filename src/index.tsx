@@ -2,10 +2,9 @@ import 'bulmaswatch/superhero/bulmaswatch.min.css';
 import ReactDOM from 'react-dom';
 import { useEffect, useState } from 'react';
 import { esbuildInitialize } from './bundler';
-import CodeCell from './components/code-cell';
-import TextEditor from './components/text-editor';
 import { Provider } from 'react-redux';
 import { store } from './state';
+import { CellList } from './components/cell-list';
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -20,14 +19,9 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <div>
-        {isLoading ? <p>Cargando</p> :
-          <>
-            {/*<CodeCell />*/}
-            <TextEditor />
-          </>
-        }
-      </div>
+      {isLoading ? <p>Cargando</p> :
+        <CellList />
+      }
     </Provider>
   );
 };
